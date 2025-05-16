@@ -3,7 +3,7 @@ import { IResponceManga } from "./TypeMangaResponce";
 import { ICoverResponce } from "./TypeCoverResponce";
 
 //начальные данные
-const mode: "dev" | "prod" = "dev";
+const mode: "dev" | "prod" = "prod";
 const BASEURL =
   mode === "dev"
     ? "http://localhost:3000"
