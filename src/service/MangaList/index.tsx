@@ -3,7 +3,7 @@ import { IResponceManga } from "./TypeMangaResponce";
 import { ICoverResponce } from "./TypeCoverResponce";
 
 //начальные данные
-const mode: "dev" | "prod" = "prod";
+const mode: "dev" | "prod" = "dev";
 const BASEURL =
   mode === "dev"
     ? "http://localhost:3000"
@@ -35,4 +35,12 @@ const fetchCoverManga = async (id: string): Promise<ICoverResponce> => {
   return res;
 };
 
-export { fetchManga, fetchCoverManga };
+const testCover = async (query: string) => {
+  const res = await axios.get(BASEURL + "/test", {
+    params: { query },
+    responseType: "blob",
+  });
+  return res;
+};
+
+export { fetchManga, fetchCoverManga, testCover };
