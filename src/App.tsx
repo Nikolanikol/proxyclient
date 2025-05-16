@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
-
 import "./App.css";
-import axios from "axios";
-const fetchData = async () => {
-  const res = await axios
-    .get(`https://proxyserver2-rho.vercel.app/manga`, {
-      params: {},
-    })
-    .then((res) => res.data)
-    .then((res) => console.log(res));
-  return res;
-};
-function App() {
-  const [data, setData] = useState();
-  useEffect(() => {
-    fetchData().then((data) => setData(data));
-  }, []);
+import { Route, Routes } from "react-router-dom";
+import Catalog from "./Pages/Catalog";
+import About from "./Pages/About";
+import User from "./Pages/User";
+import Header from "./Components/Header";
 
-  return <></>;
+function App() {
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Catalog />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/user" element={<User />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
