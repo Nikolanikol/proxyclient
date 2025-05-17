@@ -8,7 +8,7 @@ import getChaptersForMangaPage from "../../Utils/getChaptersForMangaPage";
 import { TypeChapterSlidesResponce } from "./TypeChapterSlidesResponce";
 
 //начальные данные
-const mode: "dev" | "prod" = "dev";
+const mode: "dev" | "prod" = "prod";
 const BASEURL = mode === "dev" ? DEV_URL : PROD_URL;
 
 //получаем главный каталог
