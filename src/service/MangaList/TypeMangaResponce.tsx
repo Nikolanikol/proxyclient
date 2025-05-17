@@ -11,9 +11,9 @@ export interface IDataMangaItem {
 
 // Определяем интерфейс для основных атрибутов манги
 interface IAttributes {
-  title: { [lang: string]: string }; // Например, { en: "Haru no \bHikari ni Noma rete mo" }
-  altTitles: { [lang: string]: string }[]; // Альтернативные названия с ключами языков (например, { ja: "..." })
-  description: { [lang: string]: string }; // Описание, сейчас пустой объект, но может быть расширено
+  title: ILangValue; // Например, { en: "Haru no \bHikari ni Noma rete mo" }
+  altTitles: ILangValue[]; // Альтернативные названия с ключами языков (например, { ja: "..." })
+  description: ILangValue; // Описание, сейчас пустой объект, но может быть расширено
   isLocked: boolean;
 
   links: { [resourseName: string]: string }; // Ссылки на внешние ресурсы, здесь пустой объект
@@ -35,6 +35,9 @@ interface IAttributes {
   version: number;
   availableTranslatedLanguages: string[];
   latestUploadedChapter: string;
+}
+export interface ILangValue {
+  [lang: string]: string;
 }
 interface ITag {
   id: string;

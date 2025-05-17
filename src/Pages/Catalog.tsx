@@ -4,7 +4,7 @@ import MangaCard from "../Components/MangaCard";
 const Catalog = () => {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["manga"],
-    queryFn: fetchManga,
+    queryFn: () => fetchManga(10, 0),
   });
 
   if (isLoading) return <div>loading</div>;
@@ -19,7 +19,7 @@ const Catalog = () => {
           data.data.map((item, i) => {
             return (
               //экземпляр карты
-              <MangaCard propsData={item} />
+              <MangaCard key={i} propsData={item} />
             );
           })}
       </div>

@@ -1,21 +1,26 @@
 import axios from "axios";
 import { IResponceManga } from "./TypeMangaResponce";
 import { ICoverResponce } from "./TypeCoverResponce";
+import { MangaByIdResponse } from "./TypeMangaByIdResponce";
+import { DEV_URL, PROD_URL } from "../../Variables/Variables";
+import { IChapterItem } from "./TypeChapterResponce";
+import getChaptersForMangaPage from "../../Utils/getChaptersForMangaPage";
+import { TypeChapterSlidesResponce } from "./TypeChapterSlidesResponce";
 
 //начальные данные
-const mode: "dev" | "prod" = "prod";
-const BASEURL =
-  mode === "dev"
-    ? "http://localhost:3000"
-    : "https://proxyserver2-rho.vercel.app";
+const mode: "dev" | "prod" = "dev";
+const BASEURL = mode === "dev" ? DEV_URL : PROD_URL;
 
 //получаем главный каталог
-const fetchManga = async (): Promise<IResponceManga> => {
+const fetchManga = async (
+  limit: number = 10,
+  offset: number = 0
+): Promise<IResponceManga> => {
   const res = await axios
-    .get<IResponceManga>(`${BASEURL}/manga`, {
+    .get<IResponceManga>(`${BASEURL}/manga/catalog`, {
       params: {
-        offset: 20,
-        limit: 20,
+        offset,
+        limit,
       },
     })
     .then((res) => {
@@ -24,7 +29,8 @@ const fetchManga = async (): Promise<IResponceManga> => {
   return res;
 };
 
-const fetchCoverManga = async (id: string): Promise<ICoverResponce> => {
+/////модуль для получения изображение через зеркало
+const fetchCoverFileName = async (id: string): Promise<ICoverResponce> => {
   const res = await axios
     .get<ICoverResponce>(BASEURL + "/cover", {
       params: {
@@ -35,12 +41,45 @@ const fetchCoverManga = async (id: string): Promise<ICoverResponce> => {
   return res;
 };
 
-const testCover = async (query: string) => {
-  const res = await axios.get(BASEURL + "/test", {
+const fetchImgMirror = async (query: string) => {
+  const res = await axios.get(BASEURL + "/cover/img", {
     params: { query },
     responseType: "blob",
   });
   return res;
 };
 
-export { fetchManga, fetchCoverManga, testCover };
+///получаем данные для личной страницы манги
+const fetchMangaById = async (id: string): Promise<MangaByIdResponse> => {
+  const res = await axios.get<MangaByIdResponse>(BASEURL + "/manga" + "/" + id);
+  return res.data;
+};
+
+/////получаем список доступных глав
+// не типизирован ответ т.к. ответы не стандартизированы будем обратывать в компонете MangaReadPage
+const fetchChapterList = async (id: string) => {
+  const res = await axios.get(BASEURL + "/manga" + "/" + id + "/chapters");
+  let data: IChapterItem[] = getChaptersForMangaPage(res.data);
+
+  return data;
+};
+
+////получаем слайды к chapters
+const fetchChapterSlides = async (
+  id: string
+): Promise<TypeChapterSlidesResponce> => {
+  const res = await axios.get<TypeChapterSlidesResponce>(
+    BASEURL + "/manga/chapter" + "/" + id
+  );
+
+  return res.data;
+};
+
+export {
+  fetchManga,
+  fetchCoverFileName,
+  fetchImgMirror,
+  fetchMangaById,
+  fetchChapterList,
+  fetchChapterSlides,
+};

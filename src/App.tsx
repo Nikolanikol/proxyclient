@@ -4,6 +4,8 @@ import Catalog from "./Pages/Catalog";
 import About from "./Pages/About";
 import User from "./Pages/User";
 import Header from "./Components/Header";
+import MangaById from "./Pages/MangaById";
+import MangaReadPage from "./Pages/MangaReadPage";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route path="/" element={<Catalog />} />
         <Route path="/about" element={<About />} />
         <Route path="/user" element={<User />} />
+        <Route path="/manga/:id" element={<MangaById />} />
+        <Route path="/mangaread/:id" element={<MangaReadPage />} />
       </Routes>
     </>
   );
