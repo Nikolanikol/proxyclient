@@ -6,21 +6,26 @@ import { DEV_URL, PROD_URL } from "../../Variables/Variables";
 import { IChapterItem } from "./TypeChapterResponce";
 import getChaptersForMangaPage from "../../Utils/getChaptersForMangaPage";
 import { TypeChapterSlidesResponce } from "./TypeChapterSlidesResponce";
+import { TypeTagsResponce } from "./TypeTagsResponce";
 
 //начальные данные
-const mode: "dev" | "prod" = "prod";
+const mode: "dev" | "prod" = "dev";
 const BASEURL = mode === "dev" ? DEV_URL : PROD_URL;
 
 //получаем главный каталог
 const fetchManga = async (
   limit: number = 10,
-  offset: number = 0
+  offset: number = 0,
+  includedTag: string[] | null
 ): Promise<IResponceManga> => {
+  console.log("fetchManga");
+
   const res = await axios
     .get<IResponceManga>(`${BASEURL}/manga/catalog`, {
       params: {
         offset,
         limit,
+        includedTags: includedTag,
       },
     })
     .then((res) => {
@@ -75,6 +80,11 @@ const fetchChapterSlides = async (
   return res.data;
 };
 
+///получаем теги
+const fetchTags = async (): Promise<TypeTagsResponce[]> => {
+  const res = await axios.get(BASEURL + "/tags");
+  return res.data;
+};
 export {
   fetchManga,
   fetchCoverFileName,
@@ -82,4 +92,7 @@ export {
   fetchMangaById,
   fetchChapterList,
   fetchChapterSlides,
+
+  ////////
+  fetchTags,
 };
