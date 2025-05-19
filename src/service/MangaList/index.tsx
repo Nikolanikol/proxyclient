@@ -9,7 +9,7 @@ import { TypeChapterSlidesResponce } from "./TypeChapterSlidesResponce";
 import { TypeTagsResponce } from "./TypeTagsResponce";
 
 //начальные данные
-const mode: "dev" | "prod" = "dev";
+const mode: "dev" | "prod" = "prod";
 const BASEURL = mode === "dev" ? DEV_URL : PROD_URL;
 
 //получаем главный каталог
