@@ -32,7 +32,7 @@ const Catalog = observer(() => {
         limit * currentPage,
         filterStore.tagFilter,
         filterStore.yearFilter,
-        null,
+        "pornographic",
         filterStore.searchQuery,
         filterStore.fetchMode
       ),
