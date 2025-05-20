@@ -15,12 +15,7 @@ const Catalog = observer(() => {
   /////ПРЕОБРАЗУЕМ ФИЛЬТРЫ
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: [
-      "manga",
-      currentPage,
-      filterStore.tagFilter,
-      filterStore.yearFilter,
-    ],
+    queryKey: [currentPage, filterStore.tagFilter, filterStore.yearFilter],
     queryFn: () =>
       fetchManga(
         limit,
@@ -29,6 +24,8 @@ const Catalog = observer(() => {
         filterStore.yearFilter,
         null
       ),
+    staleTime: 1000 * 60 * 5, // 5 минут — пока свежие, без повторного запроса
+    // cacheTime: 1000 * 60 * 30, // 30 минут — пока запрос остаётся в кэше
   });
 
   if (isError) return <div>error</div>;

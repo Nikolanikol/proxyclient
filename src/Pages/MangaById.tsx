@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { fetchMangaById } from "../service/MangaList";
 import { ILangValue } from "../service/MangaList/TypeMangaResponce";
 import MyImg from "../UI/MyImg";
+import { Button } from "@/UI/Shadcn/ShadcnButton";
+import TagRow from "@/Components/TagRow";
 
 const MangaById = () => {
   const { id } = useParams();
@@ -19,37 +21,39 @@ const MangaById = () => {
   const coverId = data.data.relationships.find(
     (i) => i.type === "cover_art"
   )?.id;
+  let flag = false;
+
   return (
     <div>
-      {/* title name //// */}
-      <div className="border-2 rounded-2xl border-teal-600">
-        <h2>название тайтла</h2>
-        <h3>{data.data.id} </h3>
-        {data.data.attributes.altTitles.map((item, i) => {
-          const title: string = Object.values(item)[0] as string;
-
-          return <h2 key={i}>{title} </h2>;
+      <div className=" rounded-2xl border-b-2 text-2xl font-semibold">
+        {data.data.attributes.altTitles.map((item) => {
+          if (item.en && !flag) {
+            flag = true;
+            return <h2>{item.en} </h2>;
+          }
         })}
       </div>
+      <div className="flex gap-5 justify-between pt-5">
+        {" "}
+        <MyImg coverId={coverId ? coverId : null} mangaId={data.data.id} />
+        {/* go to read title//// */}
+        <div className="flex flex-col justify-between items-center">
+          <TagRow data={data.data} mode="full" />
+          <Button className=" border-gray-400 px-2 py-2  rounded-xl border-2 cursor-pointer">
+            <Link
+              className="h-full w-full flex items-center "
+              to={`/mangaread/${data.data.id}`}
+            >
+              Перейти к чтению
+            </Link>
+          </Button>
+        </div>
+      </div>
+      {/* title name //// */}
+
       {/* description///// */}
       <div>{data.data.attributes.description["en"]}</div>
       {/* ////cover for img */}
-      <div className=" p-4 border-teal-600  border-2 rounded-3xl min-h-[200px] minw-[300px]">
-        {" "}
-        <div className="flex gap-5 justify-between">
-          {" "}
-          <MyImg coverId={coverId ? coverId : null} mangaId={data.data.id} />
-          {/* go to read title//// */}
-          <button className=" border-gray-400 px-5 py-3 rounded-3xl border-2 cursor-pointer">
-            <Link
-              className="border-2 h-full flex items-center "
-              to={`/mangaread/${data.data.id}`}
-            >
-              перейти к чтению
-            </Link>
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
