@@ -3,6 +3,8 @@ import { makeAutoObservable } from "mobx";
 export class FilterStore {
   tagFilter: string | null = null;
   yearFilter: string | null = null;
+  searchQuery: string | null = null;
+  fetchMode: "search" | "noSearch" = "noSearch";
   contentRating: string[] = [];
   constructor() {
     // makeAutoObservable автоматически сделает все свойства наблюдаемыми,
@@ -25,6 +27,14 @@ export class FilterStore {
     } else {
       this.yearFilter = null;
     }
+  }
+  setSearchQuery(string: string) {
+    this.searchQuery = string;
+    console.log(string);
+  }
+  setFetchMode(string: "search" | "noSearch") {
+    this.fetchMode = string;
+    console.log(string);
   }
 }
 

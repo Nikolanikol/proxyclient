@@ -93,7 +93,7 @@ const MangaChapterView: FC<MangaChapterViewProps> = ({ chapterId }) => {
     <div>
       {" "}
       {/* <h2>{chapterId} </h2> */}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center ">
         {data.chapter.data.map((item) => {
           const baseUrl = data.baseUrl;
           const hash = data.chapter.hash;
@@ -101,6 +101,7 @@ const MangaChapterView: FC<MangaChapterViewProps> = ({ chapterId }) => {
             <img
               width={300}
               height={400}
+              className="w-full"
               src={baseUrl + "/data" + "/" + hash + "/" + item}
               alt=""
             />

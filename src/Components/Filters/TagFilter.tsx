@@ -15,7 +15,9 @@ import { useStores } from "@/Store/RootStoreContext";
 
 const TagFilter = () => {
   const { filterStore } = useStores();
-  const [activeTag, setActiveTag] = useState<string>("Все");
+  const [activeTag, setActiveTag] = useState<string | null>(
+    filterStore.tagFilter
+  );
   const { data, isError, isLoading } = useQuery({
     queryKey: ["tags"],
     queryFn: fetchTags,
@@ -31,7 +33,7 @@ const TagFilter = () => {
   if (!data) return <div>no Data</div>;
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <h2 className="text-left">
         <div className="flex gap-2">
           <TagIcon />
@@ -44,7 +46,7 @@ const TagFilter = () => {
         </SelectTrigger>
         <SelectContent>
           <ScrollArea className="h-100">
-            <SelectItem value={"Все"}> Все</SelectItem>
+            <SelectItem value={null}> Все</SelectItem>
             {data.map((item) => (
               <SelectItem
                 key={item.id}

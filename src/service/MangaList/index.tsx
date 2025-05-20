@@ -35,6 +35,33 @@ const fetchManga = async (
     });
   return res;
 };
+//поиск через название
+const fetchMangaByTitle = async (title: string) => {
+  console.log("title");
+  console.log("asdad", title);
+  const res = await axios.get(BASEURL + "/manga/search", {
+    params: {
+      title,
+    },
+  });
+  console.log(res.data);
+  return res.data;
+};
+
+const fetchMangaAll = async (
+  limit: number = 10,
+  offset: number = 0,
+  includedTag: string | null,
+  createdAtSince: string | null,
+  contentRating: string | null,
+  title: string | null,
+  mode: "search" | "noSearch"
+): Promise<IResponceManga> => {
+  if (mode === "search") {
+    if (title) return fetchMangaByTitle(title);
+  }
+  return fetchManga(limit, offset, includedTag, createdAtSince, contentRating);
+};
 
 /////модуль для получения изображение через зеркало
 const fetchCoverFileName = async (id: string): Promise<ICoverResponce> => {
@@ -89,6 +116,7 @@ const fetchTags = async (): Promise<TypeTagsResponce[]> => {
 };
 export {
   fetchManga,
+  fetchMangaByTitle,
   fetchCoverFileName,
   fetchImgMirror,
   fetchMangaById,
@@ -97,4 +125,6 @@ export {
 
   ////////
   fetchTags,
+  ////
+  fetchMangaAll,
 };

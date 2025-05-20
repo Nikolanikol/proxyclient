@@ -1,4 +1,8 @@
-import { fetchManga } from "../service/MangaList";
+import {
+  fetchManga,
+  fetchMangaAll,
+  fetchMangaByTitle,
+} from "../service/MangaList";
 import { useQuery } from "@tanstack/react-query";
 import MangaCard from "../Components/MangaCard";
 
@@ -15,21 +19,30 @@ const Catalog = observer(() => {
   /////ПРЕОБРАЗУЕМ ФИЛЬТРЫ
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: [currentPage, filterStore.tagFilter, filterStore.yearFilter],
+    queryKey: [
+      currentPage,
+      filterStore.tagFilter,
+      filterStore.yearFilter,
+      filterStore.fetchMode,
+      filterStore.searchQuery,
+    ],
     queryFn: () =>
-      fetchManga(
+      fetchMangaAll(
         limit,
         limit * currentPage,
         filterStore.tagFilter,
         filterStore.yearFilter,
-        null
+        null,
+        filterStore.searchQuery,
+        filterStore.fetchMode
       ),
+
     staleTime: 1000 * 60 * 5, // 5 минут — пока свежие, без повторного запроса
     // cacheTime: 1000 * 60 * 30, // 30 минут — пока запрос остаётся в кэше
   });
 
   if (isError) return <div>error</div>;
-
+  //   console.log(data);
   return (
     <div className="py-5">
       <MySidebar />

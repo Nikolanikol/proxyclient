@@ -1,5 +1,3 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -12,44 +10,25 @@ import {
 } from "../../UI/Shadcn/ShadcnSidebar";
 import TagFilter from "../Filters/TagFilter";
 import YearFilter from "../Filters/YearFilter";
-
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+import { Input } from "@/UI/Shadcn/ShadcnInput";
+import { Button } from "@/UI/Shadcn/ShadcnButton";
+import { useEffect, useState } from "react";
+import { useStores } from "@/Store/RootStoreContext";
 
 export function MySidebar() {
+  const { filterStore } = useStores();
+  const [value, setValue] = useState<string>();
+  const handleClick = () => {
+    filterStore.setFetchMode("search");
+    filterStore.setSearchQuery(value);
+  };
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className="h-full">
           <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
+          <SidebarGroupContent className=" h-full ">
+            <SidebarMenu className="flex flex-col gap-2 h-full ">
               {/* ///фильтр для тегов */}
 
               <SidebarMenuItem>
@@ -61,6 +40,24 @@ export function MySidebar() {
 
               <SidebarMenuItem>
                 <YearFilter />
+                <SidebarMenuButton asChild></SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem className="mt-auto">
+                <div className="flex flex-col gap-y-3">
+                  <Input
+                    placeholder="Enter name"
+                    onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                  />
+                  <Button
+                    onClick={() => handleClick()}
+                    className="cursor-pointer"
+                  >
+                    {" "}
+                    Search
+                  </Button>
+                </div>
                 <SidebarMenuButton asChild></SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

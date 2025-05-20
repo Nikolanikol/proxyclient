@@ -9,30 +9,31 @@ import TagRow from "@/Components/TagRow";
 import { useStores } from "@/Store/RootStoreContext";
 //получаем название манги
 const getMangaName = (arr: { [lang: string]: string }[]) => {
-  let flag = false;
-  let res: string = Object.values(arr[0])[0];
-  arr.map((item) => {
-    if (item.en && !flag) {
-      flag = true;
-      res = item.en;
-    } else if (item.ru) {
-      flag = true;
-      res = item.ru;
-    } else if (item.ko) {
-      flag = true;
-      res = item.ko;
-    }
-  });
-  console.log(res);
-  return res;
+  if (arr.length > 0) {
+    let flag = false;
+    let res: string = Object.values(arr[0])[0];
+    arr.map((item) => {
+      if (item.en && !flag) {
+        flag = true;
+        res = item.en;
+      } else if (item.ru) {
+        flag = true;
+        res = item.ru;
+      } else if (item.ko) {
+        flag = true;
+        res = item.ko;
+      }
+    });
+
+    return res;
+  } else return "mistake";
 };
 const MangaById = () => {
-  const { mangaStore } = useStores();
   const { id } = useParams();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["mangaTitleData"],
     queryFn: () => (id ? fetchMangaById(id) : Promise.resolve(null)),
-    staleTime: 1000 * 60 * 5, // 5 минут — пока свежие, без повторного запроса
+    // staleTime: 1000 * 60 * 5, // 5 минут — пока свежие, без повторного запроса
   });
 
   if (isLoading) return <div>loading</div>;
@@ -43,7 +44,7 @@ const MangaById = () => {
     (i) => i.type === "cover_art"
   )?.id;
   const mangaName = getMangaName(data.data.attributes.altTitles);
-
+  //   console.log(data.data.attributes.altTitles);
   return (
     <div className=" w-screen overflow-hidden">
       <div className=" rounded-2xl border-b-2 text-2xl font-semibold">

@@ -12,27 +12,25 @@ import { CalculatorIcon } from "lucide-react";
 import { useStores } from "@/Store/RootStoreContext";
 
 const YearFilter = () => {
-  const [year, setYear] = useState<string>();
   const { filterStore } = useStores();
 
   const data = generateNumbersArray(1995, 2025, 1);
   const handleClick = (value: string) => {
-    setYear(value);
     filterStore.setYearFilter(value);
   };
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <div className="text-left flex gap-2">
         <CalculatorIcon />
         <h2> Год от</h2>
       </div>
-      <Select value={year} onValueChange={handleClick}>
+      <Select value={filterStore.yearFilter} onValueChange={handleClick}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Выбери жанр" />
         </SelectTrigger>
         <SelectContent>
           <ScrollArea className="h-100">
-            <SelectItem value={"Все"}> Все</SelectItem>
+            <SelectItem value={null}> Все</SelectItem>
             {data.map((item) => (
               <SelectItem
                 key={item}
