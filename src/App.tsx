@@ -6,18 +6,21 @@ import User from "./Pages/User";
 import Header from "./Components/Header";
 import MangaById from "./Pages/MangaById";
 import MangaReadPage from "./Pages/MangaReadPage";
+import Layout from "./Components/Sidebar/LayoutSidebar";
 
 function App() {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<Catalog />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/manga/:id" element={<MangaById />} />
-        <Route path="/mangaread/:id" element={<MangaReadPage />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Catalog />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/manga/:id" element={<MangaById />} />
+          <Route path="/mangaread/:id" element={<MangaReadPage />} />
+        </Routes>
+      </Layout>
     </>
   );
 }

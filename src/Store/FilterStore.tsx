@@ -1,7 +1,8 @@
 import { makeAutoObservable } from "mobx";
 
 export class FilterStore {
-  tagFilter: string[] | null = [];
+  tagFilter: string | null = null;
+  yearFilter: string | null = null;
   contentRating: string[] = [];
   constructor() {
     // makeAutoObservable автоматически сделает все свойства наблюдаемыми,
@@ -11,9 +12,19 @@ export class FilterStore {
   setContentRating(string: string) {
     this.contentRating = [string];
   }
-  setTag(string: string) {
-    console.log(string);
-    this.tagFilter = [string];
+  setTagFilter(string: string) {
+    if (string != "Все") {
+      this.tagFilter = string;
+    } else {
+      this.tagFilter = null;
+    }
+  }
+  setYearFilter(string: string) {
+    if (string != "Все") {
+      this.yearFilter = string + "-00-00T00:00:00";
+    } else {
+      this.yearFilter = null;
+    }
   }
 }
 

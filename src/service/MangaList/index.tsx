@@ -16,16 +16,18 @@ const BASEURL = mode === "dev" ? DEV_URL : PROD_URL;
 const fetchManga = async (
   limit: number = 10,
   offset: number = 0,
-  includedTag: string[] | null
+  includedTag: string | null,
+  createdAtSince: string | null,
+  contentRating: string | null
 ): Promise<IResponceManga> => {
-  console.log("fetchManga");
-
   const res = await axios
     .get<IResponceManga>(`${BASEURL}/manga/catalog`, {
       params: {
         offset,
         limit,
         includedTags: includedTag,
+        createdAtSince,
+        contentRating,
       },
     })
     .then((res) => {

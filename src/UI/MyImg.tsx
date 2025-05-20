@@ -1,13 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import { fetchCoverFileName, fetchImgMirror } from "../service/MangaList";
+import clsx from "clsx";
 
 interface MyImgProps {
   coverId: string | null;
   mangaId: string;
+  className?: string;
 }
 const COVER_BASE_URL = "https://uploads.mangadex.org/covers";
 
-const MyImg: FC<MyImgProps> = ({ coverId, mangaId }) => {
+const MyImg: FC<MyImgProps> = ({ coverId, mangaId, className }) => {
   const [imgSrc, setImgSrc] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -29,10 +31,15 @@ const MyImg: FC<MyImgProps> = ({ coverId, mangaId }) => {
   if (isLoading) return <div>loading</div>;
   if (isError) return <div>error</div>;
   return (
-    <div>
+    <div
+      className={clsx(
+        className,
+        "flex items-center justify-center  min-w-[100px] min-h-[100px]"
+      )}
+    >
       {/* {coverId} */}
 
-      <img className="min-w-[100px] min-h-[100px]" src={imgSrc} alt="" />
+      <img className={clsx("w-full h-full")} src={imgSrc} alt="" />
     </div>
   );
 };
