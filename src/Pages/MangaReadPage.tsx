@@ -23,46 +23,47 @@ const MangaReadPage = () => {
   const mangaName = localStorage.getItem("mangaName")
     ? localStorage.getItem("mangaName")
     : "не найдено";
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error</div>;
-  if (!chapters) return <div> not founded</div>;
-  console.log(chapters);
+
   return (
-    <div className="w-screen text-2xl font-semibold">
-      <h3>{mangaName}</h3>
-      <div>
-        <select
-          name=""
-          id=""
-          value={currentChapter}
-          onChange={(e) => setCurrentChapter(e.target.value)}
-        >
-          <option value={""}>Все</option>
-          {chapters.map((item, i) => (
-            <option key={i} value={item.id}>
-              {Number(item.chapter)}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="mt-5 border-2 border-teal-800">
-        {currentChapter && <MangaChapterView chapterId={currentChapter} />}
-      </div>
-      <div>
-        <select
-          name=""
-          id=""
-          value={currentChapter}
-          onChange={(e) => setCurrentChapter(e.target.value)}
-        >
-          <option value={""}>Все</option>
-          {chapters.map((item, i) => (
-            <option key={i} value={item.id}>
-              {Number(item.chapter)}
-            </option>
-          ))}
-        </select>
-      </div>
+    <div>
+      {!loading && chapters && (
+        <div className="w-screen text-2xl font-semibold py-5">
+          <h3>{mangaName}</h3>
+          <div>
+            <select
+              name=""
+              id=""
+              value={currentChapter}
+              onChange={(e) => setCurrentChapter(e.target.value)}
+            >
+              <option value={""}>Все</option>
+              {chapters.map((item, i) => (
+                <option key={i} value={item.id}>
+                  {Number(item.chapter)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-5 border-2 border-teal-800">
+            {currentChapter && <MangaChapterView chapterId={currentChapter} />}
+          </div>
+          <div>
+            <select
+              name=""
+              id=""
+              value={currentChapter}
+              onChange={(e) => setCurrentChapter(e.target.value)}
+            >
+              <option value={""}>Все</option>
+              {chapters.map((item, i) => (
+                <option key={i} value={item.id}>
+                  {Number(item.chapter)}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -94,7 +94,7 @@ const fetchMangaById = async (id: string): Promise<MangaByIdResponse> => {
 const fetchChapterList = async (id: string) => {
   const res = await axios.get(BASEURL + "/manga" + "/" + id + "/chapters");
   let data: IChapterItem[] = getChaptersForMangaPage(res.data);
-
+  console.log(data);
   return data;
 };
 

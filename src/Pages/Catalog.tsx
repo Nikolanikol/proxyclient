@@ -32,7 +32,7 @@ const Catalog = observer(() => {
         limit * currentPage,
         filterStore.tagFilter,
         filterStore.yearFilter,
-        "pornographic",
+        null,
         filterStore.searchQuery,
         filterStore.fetchMode
       ),
@@ -42,7 +42,7 @@ const Catalog = observer(() => {
   });
 
   if (isError) return <div>error</div>;
-  //   console.log(data);
+  console.log(data);
   return (
     <div className="py-5">
       <MySidebar />

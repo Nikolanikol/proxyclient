@@ -28,18 +28,21 @@ const MyImg: FC<MyImgProps> = ({ coverId, mangaId, className }) => {
         .finally(() => setIsLoading(false));
   }, [coverId, mangaId]);
 
-  if (isLoading) return <div>loading</div>;
   if (isError) return <div>error</div>;
   return (
-    <div
-      className={clsx(
-        className,
-        "flex items-center justify-center  min-w-[100px] min-h-[100px]"
-      )}
-    >
-      {/* {coverId} */}
+    <div>
+      {!isLoading && (
+        <div
+          className={clsx(
+            className,
+            "flex items-center justify-center  min-w-[100px] min-h-[100px]"
+          )}
+        >
+          {/* {coverId} */}
 
-      <img className={clsx("w-full h-full")} src={imgSrc} alt="" />
+          <img className={clsx("w-full h-full")} src={imgSrc} alt="" />
+        </div>
+      )}
     </div>
   );
 };

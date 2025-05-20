@@ -18,11 +18,11 @@ const MangaCard: FC<MangaCardProps> = ({ propsData }) => {
   return (
     <div
       key={propsData.id}
-      className="border-2 border-teal-700 flex gap-2 h-40
-      max-w-screen"
+      className="border-2 border-teal-700 flex gap-2 h-50 overflow-hidden
+      max-w-screen "
     >
       <MyImg
-        className=""
+        className="w-[150px] h-[200px]"
         mangaId={propsData.id}
         coverId={coverArtId ? coverArtId : null}
       />
