@@ -6,12 +6,33 @@ import { ILangValue } from "../service/MangaList/TypeMangaResponce";
 import MyImg from "../UI/MyImg";
 import { Button } from "@/UI/Shadcn/ShadcnButton";
 import TagRow from "@/Components/TagRow";
-
+import { useStores } from "@/Store/RootStoreContext";
+//получаем название манги
+const getMangaName = (arr: { [lang: string]: string }[]) => {
+  let flag = false;
+  let res: string = Object.values(arr[0])[0];
+  arr.map((item) => {
+    if (item.en && !flag) {
+      flag = true;
+      res = item.en;
+    } else if (item.ru) {
+      flag = true;
+      res = item.ru;
+    } else if (item.ko) {
+      flag = true;
+      res = item.ko;
+    }
+  });
+  console.log(res);
+  return res;
+};
 const MangaById = () => {
+  const { mangaStore } = useStores();
   const { id } = useParams();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["mangaTitleData"],
     queryFn: () => (id ? fetchMangaById(id) : Promise.resolve(null)),
+    staleTime: 1000 * 60 * 5, // 5 минут — пока свежие, без повторного запроса
   });
 
   if (isLoading) return <div>loading</div>;
@@ -21,17 +42,12 @@ const MangaById = () => {
   const coverId = data.data.relationships.find(
     (i) => i.type === "cover_art"
   )?.id;
-  let flag = false;
+  const mangaName = getMangaName(data.data.attributes.altTitles);
 
   return (
-    <div>
+    <div className=" w-screen overflow-hidden">
       <div className=" rounded-2xl border-b-2 text-2xl font-semibold">
-        {data.data.attributes.altTitles.map((item) => {
-          if (item.en && !flag) {
-            flag = true;
-            return <h2>{item.en} </h2>;
-          }
-        })}
+        <h2>{mangaName}</h2>
       </div>
       <div className="flex gap-5 justify-between pt-5">
         {" "}
@@ -39,7 +55,10 @@ const MangaById = () => {
         {/* go to read title//// */}
         <div className="flex flex-col justify-between items-center">
           <TagRow data={data.data} mode="full" />
-          <Button className=" border-gray-400 px-2 py-2  rounded-xl border-2 cursor-pointer">
+          <Button
+            onClick={() => localStorage.setItem("mangaName", mangaName)}
+            className=" border-gray-400 px-2 py-2  rounded-xl border-2 cursor-pointer"
+          >
             <Link
               className="h-full w-full flex items-center "
               to={`/mangaread/${data.data.id}`}

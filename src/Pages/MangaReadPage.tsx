@@ -3,13 +3,15 @@ import { useParams } from "react-router-dom";
 import { fetchChapterList, fetchChapterSlides } from "../service/MangaList";
 import { IChapterItem } from "../service/MangaList/TypeChapterResponce";
 import { TypeChapterSlidesResponce } from "../service/MangaList/TypeChapterSlidesResponce";
+import { useStores } from "@/Store/RootStoreContext";
 
 const MangaReadPage = () => {
+  const { mangaStore } = useStores();
   const { id } = useParams();
   const [chapters, setChapters] = useState<IChapterItem[]>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentChapter, setCurrentChapter] = useState<string>();
+  const [currentChapter, setCurrentChapter] = useState<string | null>(null);
   useEffect(() => {
     if (id) {
       fetchChapterList(id)
@@ -18,32 +20,48 @@ const MangaReadPage = () => {
         .finally(() => setLoading(false));
     }
   }, [id]);
-
+  const mangaName = localStorage.getItem("mangaName")
+    ? localStorage.getItem("mangaName")
+    : "не найдено";
   if (loading) return <div>loading</div>;
   if (error) return <div>error</div>;
   if (!chapters) return <div> not founded</div>;
+  console.log(chapters);
   return (
-    <div>
-      <h2>MangaReadPage MangaReadPage</h2>
-      <h3>{id}</h3>
+    <div className="w-screen text-2xl font-semibold">
+      <h3>{mangaName}</h3>
       <div>
         <select
           name=""
           id=""
-          defaultValue={""}
+          value={currentChapter}
           onChange={(e) => setCurrentChapter(e.target.value)}
         >
           <option value={""}>Все</option>
           {chapters.map((item, i) => (
             <option key={i} value={item.id}>
-              {Number(item.chapter) + 1}
+              {Number(item.chapter)}
             </option>
           ))}
         </select>
       </div>
       <div className="mt-5 border-2 border-teal-800">
-        manga items
-        <MangaChapterView chapterId={currentChapter} />
+        {currentChapter && <MangaChapterView chapterId={currentChapter} />}
+      </div>
+      <div>
+        <select
+          name=""
+          id=""
+          value={currentChapter}
+          onChange={(e) => setCurrentChapter(e.target.value)}
+        >
+          <option value={""}>Все</option>
+          {chapters.map((item, i) => (
+            <option key={i} value={item.id}>
+              {Number(item.chapter)}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
@@ -74,7 +92,7 @@ const MangaChapterView: FC<MangaChapterViewProps> = ({ chapterId }) => {
   return (
     <div>
       {" "}
-      <h2>{chapterId} </h2>
+      {/* <h2>{chapterId} </h2> */}
       <div className="flex flex-col items-center">
         {data.chapter.data.map((item) => {
           const baseUrl = data.baseUrl;
