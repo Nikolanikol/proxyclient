@@ -10,7 +10,7 @@ import { TypeTagsResponce } from "./TypeTagsResponce";
 
 //начальные данные
 const mode: "dev" | "prod" = "prod";
-const BASEURL = mode === "prod" ? DEV_URL : PROD_URL;
+const BASEURL = mode === "dev" ? DEV_URL : PROD_URL;
 
 //получаем главный каталог
 const fetchManga = async (
