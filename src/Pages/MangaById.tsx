@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-
 import { Link, useParams } from "react-router-dom";
 import { fetchMangaById } from "../service/MangaList";
 import { ILangValue } from "../service/MangaList/TypeMangaResponce";
 import MyImg from "../UI/MyImg";
 import { Button } from "@/UI/Shadcn/ShadcnButton";
 import TagRow from "@/Components/TagRow";
-import { useStores } from "@/Store/RootStoreContext";
+
 //получаем название манги
 const getMangaName = (arr: { [lang: string]: string }[]) => {
   if (arr) {
@@ -51,12 +50,12 @@ const MangaById = () => {
             <h2>{mangaName}</h2>
           </div>
           <div className="flex gap-1 justify-between pt-5">
-            {" "}
             <MyImg
               className="w-[180px] h-[220px] shrink-0"
               coverId={coverId ? coverId : null}
               mangaId={data.data.id}
             />
+
             {/* go to read title//// */}
             <div className="flex flex-col justify-between items-center pr-5">
               <TagRow data={data.data} mode="full" />

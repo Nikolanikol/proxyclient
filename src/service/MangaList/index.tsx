@@ -37,8 +37,8 @@ const fetchManga = async (
 };
 //поиск через название
 const fetchMangaByTitle = async (title: string) => {
-  console.log("title");
-  console.log("asdad", title);
+  //   console.log("title");
+  //   console.log("asdad", title);
   const res = await axios.get(BASEURL + "/manga/search", {
     params: {
       title,
@@ -94,7 +94,7 @@ const fetchMangaById = async (id: string): Promise<MangaByIdResponse> => {
 const fetchChapterList = async (id: string) => {
   const res = await axios.get(BASEURL + "/manga" + "/" + id + "/chapters");
   let data: IChapterItem[] = getChaptersForMangaPage(res.data);
-  console.log(data);
+  console.log("fetchChapterList", data);
   return data;
 };
 
@@ -105,7 +105,7 @@ const fetchChapterSlides = async (
   const res = await axios.get<TypeChapterSlidesResponce>(
     BASEURL + "/manga/chapter" + "/" + id
   );
-
+  console.log("getslides", res);
   return res.data;
 };
 

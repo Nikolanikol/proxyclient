@@ -9,7 +9,7 @@ import MangaCard from "../Components/MangaCard";
 import { useStores } from "../Store/RootStoreContext";
 import { observer } from "mobx-react-lite";
 import { Pagination } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MySidebar } from "@/Components/Sidebar/indexSidebar";
 
 const Catalog = observer(() => {
@@ -17,6 +17,12 @@ const Catalog = observer(() => {
   const [limit, setLimit] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
   /////ПРЕОБРАЗУЕМ ФИЛЬТРЫ
+  useEffect(() => {
+    const page = localStorage.getItem("page")
+      ? localStorage.getItem("page")
+      : null;
+    if (page) setCurrentPage(Number(currentPage));
+  });
 
   const { data, isError, isLoading } = useQuery({
     queryKey: [
@@ -40,14 +46,17 @@ const Catalog = observer(() => {
     staleTime: 1000 * 60 * 5, // 5 минут — пока свежие, без повторного запроса
     // cacheTime: 1000 * 60 * 30, // 30 минут — пока запрос остаётся в кэше
   });
-
+  const handlePaginationClick = (value: number) => {
+    setCurrentPage(Number(value));
+    localStorage.setItem("page", value.toString());
+  };
   if (isError) return <div>error</div>;
-  console.log(data);
+  //   console.log(data);
   return (
     <div className="py-5">
       <MySidebar />
 
-      <div className="grid grid-cols-6 min-h-screen">
+      <div className="grid grid-cols-6 min-h-screen py-5">
         {/* блок фильтра// */}
 
         <div className="col-span-6">
@@ -69,8 +78,9 @@ const Catalog = observer(() => {
         {" "}
         <Pagination
           defaultCurrent={currentPage}
+          current={currentPage}
           total={data?.total}
-          onChange={(value) => setCurrentPage(Number(value))}
+          onChange={(value) => handlePaginationClick(value)}
         />
       </div>
     </div>

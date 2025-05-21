@@ -6,12 +6,11 @@ import { TypeChapterSlidesResponce } from "../service/MangaList/TypeChapterSlide
 import { useStores } from "@/Store/RootStoreContext";
 
 const MangaReadPage = () => {
-  const { mangaStore } = useStores();
   const { id } = useParams();
   const [chapters, setChapters] = useState<IChapterItem[]>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentChapter, setCurrentChapter] = useState<string | null>(null);
+  const [currentChapter, setCurrentChapter] = useState<string>("1");
   useEffect(() => {
     if (id) {
       fetchChapterList(id)

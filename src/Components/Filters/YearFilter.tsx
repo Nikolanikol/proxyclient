@@ -7,12 +7,15 @@ import {
   SelectValue,
 } from "@/UI/Shadcn/ShadncnSelect";
 import { generateNumbersArray } from "@/Utils/generateNumbersArray";
-import { useState } from "react";
 import { CalculatorIcon } from "lucide-react";
 import { useStores } from "@/Store/RootStoreContext";
+import { useEffect } from "react";
 
 const YearFilter = () => {
   const { filterStore } = useStores();
+  const year = filterStore.yearFilter
+    ? filterStore.yearFilter.split("-")[0]
+    : "";
 
   const data = generateNumbersArray(1995, 2025, 1);
   const handleClick = (value: string) => {
@@ -24,9 +27,9 @@ const YearFilter = () => {
         <CalculatorIcon />
         <h2> Год от</h2>
       </div>
-      <Select value={filterStore.yearFilter} onValueChange={handleClick}>
+      <Select value={year} onValueChange={handleClick}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Выбери жанр" />
+          <SelectValue placeholder="Выбери год" />
         </SelectTrigger>
         <SelectContent>
           <ScrollArea className="h-100">
