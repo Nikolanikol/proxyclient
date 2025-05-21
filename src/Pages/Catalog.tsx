@@ -1,8 +1,4 @@
-import {
-  fetchManga,
-  fetchMangaAll,
-  fetchMangaByTitle,
-} from "../service/MangaList";
+import { fetchMangaAll } from "../service/MangaList";
 import { useQuery } from "@tanstack/react-query";
 import MangaCard from "../Components/MangaCard";
 
@@ -54,8 +50,6 @@ const Catalog = observer(() => {
   //   console.log(data);
   return (
     <div className="py-5">
-      <MySidebar />
-
       <div className="grid grid-cols-6 min-h-screen py-5">
         {/* блок фильтра// */}
 

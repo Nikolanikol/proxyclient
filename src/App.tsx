@@ -7,12 +7,16 @@ import Header from "./Components/Header";
 import MangaById from "./Pages/MangaById";
 import MangaReadPage from "./Pages/MangaReadPage";
 import Layout from "./Components/Sidebar/LayoutSidebar";
+import { MySidebar } from "./Components/Sidebar/indexSidebar";
 
 function App() {
   return (
     <>
       <Header />
+
       <Layout>
+        <MySidebar />
+
         <Routes>
           <Route path="/" element={<Catalog />} />
           <Route path="/about" element={<About />} />

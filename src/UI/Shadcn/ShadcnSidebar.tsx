@@ -172,7 +172,7 @@ const Sidebar = React.forwardRef<
 >(
   (
     {
-      side = "left",
+      side = "right",
       variant = "sidebar",
       collapsible = "offcanvas",
       className,
@@ -268,7 +268,7 @@ const Sidebar = React.forwardRef<
   }
 );
 Sidebar.displayName = "Sidebar";
-
+///кнопка вызова сайдбара
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
@@ -281,14 +281,17 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7", className)}
+      className={cn(
+        "h-20 w-20 cursor-pointer [&_svg]:size-10 absolute top-5 left-[50%] translate-x-[-50%]",
+        className
+      )}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
       {...props}
     >
-      <PanelLeft />
+      <PanelLeft size={60} className="w-full h-full " />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
@@ -8,7 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 //сетевые запросы
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RootStoreProvider } from "./Store/RootStoreProvider.tsx";
-import Layout from "./Components/Sidebar/LayoutSidebar.tsx";
 
 const queryClient = new QueryClient();
 
