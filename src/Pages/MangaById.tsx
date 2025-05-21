@@ -7,7 +7,7 @@ import { Button } from "@/UI/Shadcn/ShadcnButton";
 import TagRow from "@/Components/TagRow";
 
 //получаем название манги
-const getMangaName = (arr: { [lang: string]: string }[]) => {
+const getMangaName = (arr: { [lang: string]: string }[]): string => {
   if (arr) {
     if (arr.length > 0) {
       let flag = false;
@@ -28,6 +28,7 @@ const getMangaName = (arr: { [lang: string]: string }[]) => {
       return res;
     } else return "mistake";
   }
+  return "not founded";
 };
 const MangaById = () => {
   const { id } = useParams();
@@ -45,11 +46,11 @@ const MangaById = () => {
   return (
     <div>
       {!isLoading && data && (
-        <div className=" w-screen overflow-hidden">
+        <div className=" w-screen overflow-hidden flex flex-col gap-y-4">
           <div className=" rounded-2xl border-b-2 text-2xl font-semibold">
             <h2>{mangaName}</h2>
           </div>
-          <div className="flex gap-1 justify-between pt-5">
+          <div className="flex gap-1 justify-between">
             <MyImg
               className="w-[180px] h-[220px] shrink-0"
               coverId={coverId ? coverId : null}
@@ -75,7 +76,9 @@ const MangaById = () => {
           {/* title name //// */}
 
           {/* description///// */}
-          <div>{data.data.attributes.description["en"]}</div>
+          <div className="px-2 w-full overflow-hidden">
+            {data.data.attributes.description["en"]}
+          </div>
           {/* ////cover for img */}
         </div>
       )}

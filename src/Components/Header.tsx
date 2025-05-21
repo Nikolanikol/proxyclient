@@ -9,7 +9,7 @@ const Header = () => {
           {" "}
           <Link to={"/"}>
             {" "}
-            <span className="font-bold text-2xl">Logo</span>{" "}
+            <span className="font-bold text-2xl">MangaDex</span>{" "}
           </Link>{" "}
         </div>
         <div>user</div>

@@ -3,14 +3,22 @@ import { useParams } from "react-router-dom";
 import { fetchChapterList, fetchChapterSlides } from "../service/MangaList";
 import { IChapterItem } from "../service/MangaList/TypeChapterResponce";
 import { TypeChapterSlidesResponce } from "../service/MangaList/TypeChapterSlidesResponce";
-import { useStores } from "@/Store/RootStoreContext";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/UI/Shadcn/ShadncnSelect";
+import { ScrollArea } from "@/UI/Shadcn/ShadcnScrollArea";
 
 const MangaReadPage = () => {
   const { id } = useParams();
   const [chapters, setChapters] = useState<IChapterItem[]>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentChapter, setCurrentChapter] = useState<string>("1");
+  const [currentChapter, setCurrentChapter] = useState<string>();
   useEffect(() => {
     if (id) {
       fetchChapterList(id)
@@ -28,38 +36,57 @@ const MangaReadPage = () => {
       {!loading && chapters && (
         <div className="w-screen text-2xl font-semibold py-5">
           <h3>{mangaName}</h3>
-          <div>
-            <select
-              name=""
-              id=""
-              value={currentChapter}
-              onChange={(e) => setCurrentChapter(e.target.value)}
-            >
-              <option value={""}>Все</option>
-              {chapters.map((item, i) => (
-                <option key={i} value={item.id}>
-                  {Number(item.chapter)}
-                </option>
-              ))}
-            </select>
+          <div className="w-full flex justify-center ">
+            <Select onValueChange={(e) => setCurrentChapter(e)}>
+              <SelectValue placeholder="Выбери главу" />
+
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Выбери главу" />
+              </SelectTrigger>
+              <SelectContent>
+                <ScrollArea className="h-100">
+                  <SelectItem value={null}> Все</SelectItem>
+                  {chapters.map((item) => (
+                    <SelectItem
+                      key={item.id}
+                      className="cursor-pointer border-1 border-teal-700"
+                      value={item.id}
+                    >
+                      {" "}
+                      {Number(item.chapter)}
+                    </SelectItem>
+                  ))}
+                </ScrollArea>
+              </SelectContent>
+            </Select>
           </div>
-          <div className="mt-5 border-2 border-teal-800">
+          <div className="mt-5  min-h-screen">
             {currentChapter && <MangaChapterView chapterId={currentChapter} />}
           </div>
-          <div>
-            <select
-              name=""
-              id=""
+          <div className="w-full flex justify-center">
+            <Select
               value={currentChapter}
-              onChange={(e) => setCurrentChapter(e.target.value)}
+              onValueChange={(e) => setCurrentChapter(e)}
             >
-              <option value={""}>Все</option>
-              {chapters.map((item, i) => (
-                <option key={i} value={item.id}>
-                  {Number(item.chapter)}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Выбери жанр" />
+              </SelectTrigger>
+              <SelectContent>
+                <ScrollArea className="h-100">
+                  <SelectItem value={null}> Все</SelectItem>
+                  {chapters.map((item) => (
+                    <SelectItem
+                      key={item.id}
+                      className="cursor-pointer border-1 border-teal-700"
+                      value={item.id}
+                    >
+                      {" "}
+                      {Number(item.chapter)}
+                    </SelectItem>
+                  ))}
+                </ScrollArea>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       )}
@@ -86,27 +113,26 @@ const MangaChapterView: FC<MangaChapterViewProps> = ({ chapterId }) => {
     }
   }, [chapterId]);
   console.log(data);
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error</div>;
-  if (!data) return <div>not found</div>;
+
   return (
     <div>
-      {" "}
-      {/* <h2>{chapterId} </h2> */}
       <div className="flex flex-col items-center ">
-        {data.chapter.data.map((item) => {
-          const baseUrl = data.baseUrl;
-          const hash = data.chapter.hash;
-          return (
-            <img
-              width={300}
-              height={400}
-              className="w-full"
-              src={baseUrl + "/data" + "/" + hash + "/" + item}
-              alt=""
-            />
-          );
-        })}
+        {!loading &&
+          data &&
+          data.chapter.data.map((item, i) => {
+            const baseUrl = data.baseUrl;
+            const hash = data.chapter.hash;
+            return (
+              <img
+                key={i}
+                width={300}
+                height={400}
+                className="w-full"
+                src={baseUrl + "/data" + "/" + hash + "/" + item}
+                alt=""
+              />
+            );
+          })}
       </div>
     </div>
   );

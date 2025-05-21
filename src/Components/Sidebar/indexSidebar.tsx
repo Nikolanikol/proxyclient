@@ -14,13 +14,20 @@ import { Input } from "@/UI/Shadcn/ShadcnInput";
 import { Button } from "@/UI/Shadcn/ShadcnButton";
 import { useEffect, useState } from "react";
 import { useStores } from "@/Store/RootStoreContext";
+import { useNavigate } from "react-router-dom";
 
 export function MySidebar() {
+  const navigate = useNavigate();
   const { filterStore } = useStores();
   const [value, setValue] = useState<string>();
-  const handleClick = () => {
+
+  const handleSubmit = (e: HTMLFormElement) => {
+    e.preventDefault();
+
     filterStore.setFetchMode("search");
     filterStore.setSearchQuery(value);
+    setValue("");
+    navigate("/");
   };
   return (
     <Sidebar>
@@ -42,22 +49,21 @@ export function MySidebar() {
                 <YearFilter />
                 <SidebarMenuButton asChild></SidebarMenuButton>
               </SidebarMenuItem>
-
+              {/* ///поиск по названию */}
               <SidebarMenuItem className="mt-auto">
-                <div className="flex flex-col gap-y-3">
-                  <Input
-                    placeholder="Enter name"
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                  />
-                  <Button
-                    onClick={() => handleClick()}
-                    className="cursor-pointer"
-                  >
-                    {" "}
-                    Search
-                  </Button>
-                </div>
+                <form action="" onSubmit={handleSubmit}>
+                  <div className="flex flex-col gap-y-3">
+                    <Input
+                      placeholder="Enter name"
+                      onChange={(e) => setValue(e.target.value)}
+                      value={value}
+                    />
+                    <Button type="submit" className="cursor-pointer">
+                      {" "}
+                      Search
+                    </Button>
+                  </div>
+                </form>
                 <SidebarMenuButton asChild></SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

@@ -10,8 +10,12 @@ import { generateNumbersArray } from "@/Utils/generateNumbersArray";
 import { CalculatorIcon } from "lucide-react";
 import { useStores } from "@/Store/RootStoreContext";
 import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
-const YearFilter = () => {
+const YearFilter = observer(() => {
+  const navigate = useNavigate();
+
   const { filterStore } = useStores();
   const year = filterStore.yearFilter
     ? filterStore.yearFilter.split("-")[0]
@@ -19,7 +23,9 @@ const YearFilter = () => {
 
   const data = generateNumbersArray(1995, 2025, 1);
   const handleClick = (value: string) => {
+    filterStore.setFetchMode("noSearch");
     filterStore.setYearFilter(value);
+    navigate("");
   };
   return (
     <div className="flex flex-col gap-2">
@@ -49,6 +55,6 @@ const YearFilter = () => {
       </Select>
     </div>
   );
-};
+});
 
 export default YearFilter;

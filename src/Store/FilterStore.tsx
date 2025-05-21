@@ -22,7 +22,7 @@ export class FilterStore {
     }
   }
   setYearFilter(string: string) {
-    if (string != "Все") {
+    if (string) {
       this.yearFilter = string + "-00-00T00:00:00";
     } else {
       this.yearFilter = null;

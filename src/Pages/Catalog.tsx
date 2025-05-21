@@ -6,7 +6,6 @@ import { useStores } from "../Store/RootStoreContext";
 import { observer } from "mobx-react-lite";
 import { Pagination } from "antd";
 import { useEffect, useState } from "react";
-import { MySidebar } from "@/Components/Sidebar/indexSidebar";
 
 const Catalog = observer(() => {
   const { filterStore } = useStores();

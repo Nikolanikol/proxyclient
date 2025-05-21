@@ -12,8 +12,10 @@ import { useState } from "react";
 import { TagIcon } from "lucide-react";
 import { fetchTags } from "@/service/MangaList";
 import { useStores } from "@/Store/RootStoreContext";
+import { useNavigate } from "react-router-dom";
 
 const TagFilter = () => {
+  const navigate = useNavigate();
   const { filterStore } = useStores();
   const [activeTag, setActiveTag] = useState<string | null>(
     filterStore.tagFilter
@@ -27,6 +29,8 @@ const TagFilter = () => {
   const handleClick = (id: string) => {
     filterStore.setTagFilter(id);
     setActiveTag(id);
+    filterStore.setFetchMode("noSearch");
+    navigate("/");
   };
   if (isLoading) return <div>loading</div>;
   if (isError) return <div> error</div>;
